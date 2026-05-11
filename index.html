@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Choudhry Cars – Finance Pre-Approval</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #111113;
+    --surface: #1a1a1e;
+    --card: #222228;
+    --accent: #c8a84b;
+    --accent2: #e8c96a;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: #333;
+    --input-bg: #16161a;
+    --error: #e05555;
+    --success: #4caf7d;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 80% 40% at 50% -10%, rgba(200,168,75,0.12) 0%, transparent 60%),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px);
+  }
+
+  /* ─── Header ─── */
+  header {
+    text-align: center;
+    padding: 2.5rem 1rem 1.5rem;
+    border-bottom: 1px solid rgba(200,168,75,0.25);
+    position: relative;
+  }
+  .logo-wrap {
+    display: inline-block;
+    background: #1e1e22;
+    border: 1px solid rgba(200,168,75,0.3);
+    border-radius: 16px;
+    padding: 1.2rem 2.2rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 0 40px rgba(200,168,75,0.08);
+  }
+  .logo-wrap img { width: 200px; max-width: 90vw; display: block; }
+
+  header h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── Form wrapper ─── */
+  .form-outer {
+    max-width: 780px;
+    margin: 2.5rem auto 4rem;
+    padding: 0 1rem;
+  }
+
+  /* ─── Sections ─── */
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 1.8rem 1.8rem 1.4rem;
+    margin-bottom: 1.6rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .section:nth-child(1) { animation-delay: 0.05s }
+  .section:nth-child(2) { animation-delay: 0.10s }
+  .section:nth-child(3) { animation-delay: 0.15s }
+  .section:nth-child(4) { animation-delay: 0.20s }
+  .section:nth-child(5) { animation-delay: 0.25s }
+  .section:nth-child(6) { animation-delay: 0.30s }
+
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(200,168,75,0.35), transparent);
+  }
+
+  /* ─── Grid ─── */
+  .grid { display: grid; gap: 1rem; }
+  .col-1 { grid-template-columns: 1fr; }
+  .col-2 { grid-template-columns: 1fr 1fr; }
+  .col-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .span-2 { grid-column: span 2; }
+
+  @media (max-width: 560px) {
+    .col-2, .col-3 { grid-template-columns: 1fr; }
+    .span-2 { grid-column: span 1; }
+    .section { padding: 1.2rem 1rem; }
+  }
+
+  /* ─── Fields ─── */
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  label {
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  input, select, textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 7px;
+    padding: 0.62rem 0.85rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: #555; }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200,168,75,0.12);
+  }
+  select { cursor: pointer; }
+  select option { background: #1a1a1e; }
+  textarea { resize: vertical; min-height: 68px; }
+
+  /* conditional rows */
+  .conditional { display: none; }
+  .conditional.show { display: contents; }
+
+  /* ─── Submit ─── */
+  .submit-wrap {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .submit-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #111;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    padding: 0.95rem 3rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 24px rgba(200,168,75,0.25);
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(200,168,75,0.35); }
+  .submit-btn:active { transform: translateY(0); }
+
+  /* ─── QR section ─── */
+  .qr-section {
+    text-align: center;
+    margin: 2.5rem auto 1rem;
+    max-width: 780px;
+    padding: 0 1rem;
+  }
+  .qr-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.6rem;
+    display: inline-block;
+  }
+  .qr-card p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  #qr-code canvas, #qr-code img { border-radius: 8px; }
+
+  /* ─── Toast ─── */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--success); color: #fff;
+    padding: 0.9rem 2rem; border-radius: 50px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.08em;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+    z-index: 999;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ─── Footer ─── */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: #555;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    border-top: 1px solid #222;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <div class="logo-wrap">
+    <img src="https://i.imgur.com/placeholder.png" alt="Choudhry Cars" id="logo-img" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block'"/>
+    <div id="logo-fallback" style="display:none; font-family:'Rajdhani',sans-serif; font-size:1.7rem; font-weight:700; color:#c8a84b; letter-spacing:0.1em;">CHOUDHRY CARS</div>
+  </div>
+  <h1>Finance Pre-Approval</h1>
+  <p>Durban, South Africa · Vehicle Solutions</p>
+</header>
+
+<!-- ═══ QR CODE (shown at top for social sharing) ═══ -->
+<div class="qr-section">
+  <div class="qr-card">
+    <div id="qr-code"></div>
+    <p>Scan to open this form</p>
+  </div>
+</div>
+
+<!-- ═══ FORM ═══ -->
+<div class="form-outer">
+<form id="preapproval-form" novalidate>
+
+  <!-- 1. Vehicle Details -->
+  <div class="section">
+    <div class="section-title">🚗 Vehicle Details</div>
+    <div class="grid col-1">
+      <div class="field">
+        <label>Car Full Details (Year, Make, Model, Colour, km)</label>
+        <textarea name="car_details" placeholder="e.g. 2019 Toyota Corolla Quest 1.8 White, 45 000 km" required></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Personal Details -->
+  <div class="section">
+    <div class="section-title">👤 Personal Details</div>
+    <div class="grid col-2">
+      <div class="field">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="First name" required/>
+      </div>
+      <div class="field">
+        <label>Surname</label>
+        <input type="text" name="surname" placeholder="Last name" required/>
+      </div>
+      <div class="field">
+        <label>Cell Number</label>
+        <input type="tel" name="cell" placeholder="e.g. 083 123 4567" required/>
+      </div>
+      <div class="field">
+        <label>ID Number</label>
+        <input type="text" name="id_number" placeholder="13-digit SA ID" maxlength="13" required/>
+      </div>
+      <div class="field span-2">
+        <label>Physical Address</label>
+        <textarea name="physical_address" placeholder="Street, Suburb, City, Code" required></textarea>
+      </div>
+      <div class="field span-2">
+        <label>Postal Address</label>
+        <textarea name="postal_address" placeholder="If same as above, write 'Same'"></textarea>
+      </div>
+      <div class="field">
+        <label>Duration at Address</label>
+        <input type="text" name="address_duration" placeholder="e.g. 3 years 2 months"/>
+      </div>
+      <div class="field">
+        <label>Marital Status</label>
+        <select name="married" id="married-select">
+          <option value="">Select…</option>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Divorced">Divorced</option>
+          <option value="Widowed">Widowed</option>
+        </select>
+      </div>
+
+      <!-- Conditional: marriage details -->
+      <div class="field conditional" id="marriage-type-field">
+        <label>Type of Marriage</label>
+        <select name="marriage_type">
+          <option value="">Select…</option>
+          <option>In Community of Property</option>
+          <option>Out of Community of Property (ANC)</option>
+          <option>Customary</option>
+        </select>
+      </div>
+      <div class="field conditional" id="marriage-date-field">
+        <label>Date of Marriage</label>
+        <input type="date" name="marriage_date"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Next of Kin -->
+  <div class="section">
+    <div class="section-title">👨‍👩‍👧 Next of Kin (not living with you)</div>
+    <div class="grid col-2">
+      <div class="field">
+        <label>Name</label>
+        <input type="text" name="kin_name" placeholder="First name"/>
+      </div>
+      <div class="field">
+        <label>Surname</label>
+        <input type="text" name="kin_surname" placeholder="Last name"/>
+      </div>
+      <div class="field span-2">
+        <label>Address</label>
+        <textarea name="kin_address" placeholder="Street, Suburb, City, Code"></textarea>
+      </div>
+      <div class="field">
+        <label>Cell Number</label>
+        <input type="tel" name="kin_cell" placeholder="e.g. 082 987 6543"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Work Details -->
+  <div class="section">
+    <div class="section-title">💼 Work Details</div>
+    <div class="grid col-2">
+      <div class="field">
+        <label>Employer</label>
+        <input type="text" name="employer" placeholder="Company name"/>
+      </div>
+      <div class="field">
+        <label>Occupation</label>
+        <input type="text" name="occupation" placeholder="Your job title"/>
+      </div>
+      <div class="field span-2">
+        <label>Work Address</label>
+        <textarea name="work_address" placeholder="Street, Suburb, City, Code"></textarea>
+      </div>
+      <div class="field">
+        <label>Duration at Work</label>
+        <input type="text" name="work_duration" placeholder="e.g. 5 years"/>
+      </div>
+      <div class="field">
+        <label>Work Number</label>
+        <input type="tel" name="work_number" placeholder="e.g. 031 000 0000"/>
+      </div>
+      <div class="field">
+        <label>Salary Date</label>
+        <input type="text" name="salary_date" placeholder="e.g. 25th of each month"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Banking & Salary -->
+  <div class="section">
+    <div class="section-title">🏦 Banking & Salary</div>
+    <div class="grid col-2">
+      <div class="field">
+        <label>Bank Name</label>
+        <select name="bank_name">
+          <option value="">Select bank…</option>
+          <option>ABSA</option>
+          <option>Standard Bank</option>
+          <option>FNB</option>
+          <option>Nedbank</option>
+          <option>Capitec</option>
+          <option>African Bank</option>
+          <option>TymeBank</option>
+          <option>Discovery Bank</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Account Number</label>
+        <input type="text" name="account_no" placeholder="Account number"/>
+      </div>
+      <div class="field">
+        <label>Account Type</label>
+        <select name="account_type">
+          <option value="">Select…</option>
+          <option>Cheque / Current</option>
+          <option>Savings</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Gross Salary (R)</label>
+        <input type="number" name="gross_salary" placeholder="e.g. 25000" min="0"/>
+      </div>
+      <div class="field">
+        <label>Nett Salary (R)</label>
+        <input type="number" name="nett_salary" placeholder="e.g. 18000" min="0"/>
+      </div>
+      <div class="field">
+        <label>Other Income (R)</label>
+        <input type="number" name="other_income" placeholder="e.g. 2000" min="0"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Monthly Expenses -->
+  <div class="section">
+    <div class="section-title">📊 Monthly Expenses (R)</div>
+    <div class="grid col-3">
+      <div class="field">
+        <label>Loan Repayments</label>
+        <input type="number" name="exp_loan" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Rates / Rent</label>
+        <input type="number" name="exp_rates" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Credit Card</label>
+        <input type="number" name="exp_credit_card" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Furniture Account</label>
+        <input type="number" name="exp_furniture" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Clothing Account</label>
+        <input type="number" name="exp_clothing" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Cellphone Account</label>
+        <input type="number" name="exp_cellphone" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Policies / Insurance</label>
+        <input type="number" name="exp_policies" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Transport Costs</label>
+        <input type="number" name="exp_transport" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Education Costs</label>
+        <input type="number" name="exp_education" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Groceries</label>
+        <input type="number" name="exp_groceries" placeholder="0" min="0"/>
+      </div>
+      <div class="field">
+        <label>Other Household</label>
+        <input type="number" name="exp_other" placeholder="0" min="0"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-wrap">
+    <button type="submit" class="submit-btn">Submit Pre-Approval Application</button>
+    <p style="color:var(--muted); font-size:0.78rem; margin-top:0.8rem;">Your information is submitted securely to Choudhry Cars, Durban.</p>
+  </div>
+
+</form>
+</div>
+
+<footer>© 2025 Choudhry Cars Vehicle Solutions · Durban, South Africa</footer>
+
+<div class="toast" id="toast">✓ Application submitted! We'll contact you soon.</div>
+
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+/* ─── Logo: embed the uploaded logo as base64 ─── */
+// Replace the placeholder; the logo is embedded via JS below
+const LOGO_B64 = null; // Will fall back to text logo since we can't embed server-side
+
+/* ─── Generate QR for current page URL ─── */
+const pageURL = window.location.href;
+new QRCode(document.getElementById("qr-code"), {
+  text: pageURL,
+  width: 160,
+  height: 160,
+  colorDark: "#c8a84b",
+  colorLight: "#1a1a1e",
+  correctLevel: QRCode.CorrectLevel.H
+});
+
+/* ─── Conditional marriage fields ─── */
+const marriedSel = document.getElementById('married-select');
+const marriageTypeField = document.getElementById('marriage-type-field');
+const marriageDateField = document.getElementById('marriage-date-field');
+
+marriedSel.addEventListener('change', () => {
+  const isMarried = marriedSel.value === 'Married';
+  marriageTypeField.classList.toggle('show', isMarried);
+  marriageDateField.classList.toggle('show', isMarried);
+});
+
+/* ─── Form submission via Web3Forms ─── */
+const form = document.getElementById('preapproval-form');
+const toast = document.getElementById('toast');
+
+const WEB3FORMS_KEY = 'd00c2194-1930-45d2-99b0-22dc24878d98';
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector('.submit-btn');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const formData = new FormData(form);
+  formData.append('access_key', WEB3FORMS_KEY);
+  formData.append('subject', 'New Finance Pre-Approval – Choudhry Cars');
+  formData.append('from_name', 'Choudhry Cars Pre-Approval Form');
+
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      toast.classList.add('show');
+      form.reset();
+      setTimeout(() => toast.classList.remove('show'), 5000);
+    } else {
+      alert('Submission failed. Please try again or call us directly.');
+    }
+  } catch {
+    alert('Network error. Please check your connection and try again.');
+  }
+
+  btn.textContent = 'Submit Pre-Approval Application';
+  btn.disabled = false;
+});
+</script>
+
+</body>
+</html>
